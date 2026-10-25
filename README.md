@@ -114,3 +114,11 @@ docker build -t ghcr.io/wyndure/octelium-initializer:dev .
 ## License
 
 GNU Affero General Public License v3.0. See [LICENSE-AGPL-3.0](LICENSE-AGPL-3.0).
+
+## Legal
+
+This project is a community endeavour and is not associated with Octelium Labs, LLC.
+
+Octelium and Octelium logo are trademarks of Octelium Labs, LLC.
+
+WireGuard is a registered trademark of Jason A. Donenfeld.
