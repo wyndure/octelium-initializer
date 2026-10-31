@@ -1,0 +1,9 @@
+.git
+.cache
+bin
+vendor
+coverage.out
+*.tar
+.aws
+.codex
+.agents
