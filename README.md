@@ -52,7 +52,7 @@ spec:
               drop: [ALL]
       containers:
         - name: rscserver
-          image: ghcr.io/octelium/octelium-rscserver:0.47.0
+          image: ghcr.io/octelium/octelium-rscserver:0.49.0
           envFrom:
             - secretRef:
                 name: octelium-storage
@@ -93,7 +93,7 @@ Bind the Role to the resource-server Pod's ServiceAccount using a RoleBinding in
 
 ## Build and test
 
-Requires Go 1.27.3 or newer. Dependencies are pinned to published modules compatible with Octelium 0.47.0.
+Requires Go 1.27.3 or newer. Dependencies are pinned to published modules from Octelium v0.49.0 (commit `962ca3e7459f`).
 
 ```sh
 go mod download

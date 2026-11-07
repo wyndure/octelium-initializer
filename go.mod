@@ -3,10 +3,10 @@ module github.com/wyndure/octelium-initializer
 go 1.27.3
 
 require (
-	github.com/octelium/octelium/apis v0.42.1-0.20261024203258-aa90748749dc
-	github.com/octelium/octelium/cluster/common v0.0.0-20261024203258-aa90748749dc
-	github.com/octelium/octelium/cluster/rscserver v0.0.0-20261024203258-aa90748749dc
-	github.com/octelium/octelium/pkg v0.0.0-20261024203258-aa90748749dc
+	github.com/octelium/octelium/apis v0.42.1-0.20261101155145-962ca3e7459f
+	github.com/octelium/octelium/cluster/common v0.0.0-20261101155145-962ca3e7459f
+	github.com/octelium/octelium/cluster/rscserver v0.0.0-20261101155145-962ca3e7459f
+	github.com/octelium/octelium/pkg v0.0.0-20261101155145-962ca3e7459f
 	google.golang.org/grpc v1.84.0
 	google.golang.org/protobuf v1.36.12
 	k8s.io/apimachinery v0.37.0
@@ -22,8 +22,7 @@ require (
 	github.com/doug-martin/goqu/v9 v9.19.0 // indirect
 	github.com/emicklei/go-restful/v3 v3.13.0 // indirect
 	github.com/fxamacker/cbor/v2 v2.9.1 // indirect
-	github.com/ghodss/yaml v1.0.0 // indirect
-	github.com/go-jose/go-jose/v4 v4.1.4 // indirect
+	github.com/go-jose/go-jose/v4 v4.1.6 // indirect
 	github.com/go-logr/logr v1.4.4 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-openapi/jsonpointer v1.0.0 // indirect
@@ -51,7 +50,6 @@ require (
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/redis/go-redis/v9 v9.22.0 // indirect
-	github.com/rogpeppe/go-internal v1.15.0 // indirect
 	github.com/spiffe/go-spiffe/v2 v2.8.1 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
@@ -80,7 +78,6 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260819154853-08b0e4226688 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.13.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
-	gopkg.in/yaml.v2 v2.4.0 // indirect
 	k8s.io/api v0.37.0 // indirect
 	k8s.io/klog/v2 v2.140.0 // indirect
 	k8s.io/kube-openapi v0.0.0-20260721132016-d427ff9ee9ad // indirect

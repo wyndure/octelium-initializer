@@ -1,28 +1,53 @@
 #!/bin/sh
 set -eu
 
-# Publishing is restricted to push events, including when this helper is used alone.
-[ "${GITHUB_EVENT_NAME:-}" = push ] || exit 0
+# Only publish on push events.
+[ "${GITHUB_EVENT_NAME:-}" = "push" ] || exit 0
 
-if [ "${GITHUB_REF_TYPE:-}" = tag ]; then
-  if ! printf '%s\n' "${GITHUB_REF_NAME:-}" | grep -Eq '^[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}$'; then
-    printf 'Git tag is not a valid container image tag: %s\n' "${GITHUB_REF_NAME:-}" >&2
-    exit 1
-  fi
+branch_slug() {
+  printf '%s' "$1" |
+    LC_ALL=C tr '[:upper:]' '[:lower:]' |
+    sed 's/[^a-z0-9]/-/g; s/^-*//; s/-*$//' |
+    cut -c1-63 |
+    sed 's/-*$//'
+}
 
-  image_tags="$GITHUB_REF_NAME,latest"
-elif [ "${GITHUB_REF_TYPE:-}" = branch ] && [ "${GITHUB_REF_NAME:-}" = main ]; then
-  image_tags="dev-${GITHUB_RUN_ID:?},dev"
-elif [ "${GITHUB_REF_TYPE:-}" = branch ] && [ "${GITHUB_REF_PROTECTED:-false}" = true ]; then
-  branch_slug=$(printf '%s' "${GITHUB_REF_NAME:?}" | LC_ALL=C tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g; s/^-*//; s/-*$//' | cut -c1-63 | sed 's/-*$//')
-  branch_slug=${branch_slug:-branch}
+case "${GITHUB_REF_TYPE:-}:${GITHUB_REF_NAME:-}" in
+  tag:*)
+    ref=$GITHUB_REF_NAME
 
-  image_tags="dev-${GITHUB_RUN_ID:?},dev-$branch_slug"
-else
-  exit 0
-fi
+    if ! printf '%s\n' "$ref" |
+      grep -Eq '^[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}$'; then
+      printf 'Invalid container image tag: %s\n' "$ref" >&2
+      exit 1
+    fi
+
+    case "$ref" in
+      v[0-9]*) tags="$ref,${ref#v},latest" ;;
+      *)       tags="$ref,latest" ;;
+    esac
+    ;;
+
+  branch:main)
+    tags="dev-${GITHUB_RUN_ID:?},dev"
+    ;;
+
+  branch:*)
+    [ "${GITHUB_REF_PROTECTED:-false}" = "true" ] || exit 0
+
+    slug=$(branch_slug "$GITHUB_REF_NAME")
+    tags="dev-${GITHUB_RUN_ID:?},dev-${slug:-branch}"
+    ;;
+
+  *)
+    exit 0
+    ;;
+esac
 
 image=${IMAGE_REPOSITORY:-ghcr.io/${GITHUB_REPOSITORY:?}}
-image=$(printf '%s' "$image" | tr '[:upper:]' '[:lower:]')
+image=$(printf '%s' "$image" | LC_ALL=C tr '[:upper:]' '[:lower:]')
 
-printf '%s:%s,%s:%s\n' "$image" "${image_tags%,*}" "$image" "${image_tags#*,}"
+printf '%s\n' "$tags" |
+  tr ',' '\n' |
+  sed "s|^|$image:|" |
+  paste -sd, -

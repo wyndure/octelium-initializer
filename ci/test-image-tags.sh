@@ -25,8 +25,9 @@ check() {
   fi
 }
 
-check "$image:v1.2.3,$image:latest" tag v1.2.3 true
-check "$image:v1.2.3-rc.1,$image:latest" tag v1.2.3-rc.1 false
+check "$image:v1.2.3,$image:1.2.3,$image:latest" tag v1.2.3 true
+check "$image:v1.2.3-rc.1,$image:1.2.3-rc.1,$image:latest" tag v1.2.3-rc.1 false
+check "$image:1.2.3,$image:latest" tag 1.2.3 true
 check "$image:dev-1,$image:dev" branch main true
 check "$image:dev-1,$image:dev" branch main false
 check "$image:dev-1,$image:dev-release-1-2" branch release/1.2 true
